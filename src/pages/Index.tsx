@@ -301,22 +301,6 @@ const Index = () => {
     setApplicationForm({...applicationForm, snils: formatted});
   };
 
-  const handleApplicationSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Заявка отправлена!",
-      description: "Мы свяжемся с вами в ближайшее время для уточнения деталей.",
-    });
-    setApplicationForm({
-      fullName: '',
-      email: '',
-      phone: '',
-      program: '',
-      educationForm: '',
-      message: ''
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
