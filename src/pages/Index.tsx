@@ -26,7 +26,7 @@ interface Question {
 }
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('courses');
+  const [activeTab, setActiveTab] = useState('home');
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
@@ -158,11 +158,145 @@ const Index = () => {
 
       <main className="container mx-auto px-4 py-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4">
+            <TabsTrigger value="home">Главная</TabsTrigger>
             <TabsTrigger value="courses">Курсы</TabsTrigger>
             <TabsTrigger value="library">Библиотека</TabsTrigger>
             <TabsTrigger value="profile">Профиль</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="home" className="space-y-16 animate-fade-in">
+            <section className="text-center space-y-6 py-20 px-4">
+              <div className="inline-block">
+                <Badge variant="secondary" className="mb-4 text-sm px-4 py-1">
+                  Образование нового поколения
+                </Badge>
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold max-w-4xl mx-auto leading-tight">
+                Академия Знаний
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Профессиональное онлайн-образование с системой тестирования и проверки знаний. 
+                Учитесь в удобном темпе, получайте сертификаты.
+              </p>
+              <div className="flex gap-4 justify-center pt-4">
+                <Button size="lg" className="bg-accent hover:bg-accent/90" onClick={() => setActiveTab('courses')}>
+                  <Icon name="BookOpen" size={20} className="mr-2" />
+                  Начать обучение
+                </Button>
+                <Button size="lg" variant="outline" onClick={() => setActiveTab('library')}>
+                  <Icon name="Library" size={20} className="mr-2" />
+                  Библиотека
+                </Button>
+              </div>
+            </section>
+
+            <section className="grid md:grid-cols-3 gap-8 px-4">
+              <Card className="text-center border-2 hover:border-accent transition-colors">
+                <CardHeader>
+                  <div className="mx-auto h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center mb-4">
+                    <Icon name="GraduationCap" size={32} className="text-accent" />
+                  </div>
+                  <CardTitle className="text-xl">50+ курсов</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Широкий выбор академических программ по математике, физике, информатике и гуманитарным наукам
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center border-2 hover:border-secondary transition-colors">
+                <CardHeader>
+                  <div className="mx-auto h-16 w-16 rounded-full bg-secondary/10 flex items-center justify-center mb-4">
+                    <Icon name="ClipboardCheck" size={32} className="text-secondary" />
+                  </div>
+                  <CardTitle className="text-xl">Система тестирования</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Автоматическая проверка знаний, мгновенная обратная связь и детальная статистика успеваемости
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center border-2 hover:border-primary transition-colors">
+                <CardHeader>
+                  <div className="mx-auto h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Icon name="Award" size={32} className="text-primary" />
+                  </div>
+                  <CardTitle className="text-xl">Сертификаты</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Получайте официальные сертификаты о прохождении курсов и подтверждайте свою квалификацию
+                  </p>
+                </CardContent>
+              </Card>
+            </section>
+
+            <section className="bg-muted/30 rounded-2xl p-12 mx-4">
+              <div className="max-w-4xl mx-auto text-center space-y-8">
+                <h2 className="text-3xl md:text-4xl font-bold">Популярные курсы</h2>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {courses.slice(0, 4).map((course) => (
+                    <Card key={course.id} className="hover:shadow-lg transition-shadow">
+                      <CardHeader>
+                        <div className="flex items-start justify-between">
+                          <div className="space-y-1 text-left">
+                            <CardTitle className="text-lg">{course.title}</CardTitle>
+                            <CardDescription>{course.category}</CardDescription>
+                          </div>
+                          <Badge variant="secondary" className="text-xs">{course.level}</Badge>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <Icon name="Users" size={14} />
+                            <span>{course.students}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Icon name="Clock" size={14} />
+                            <span>{course.duration}</span>
+                          </div>
+                        </div>
+                        <Button className="w-full" size="sm" variant="outline" onClick={() => setActiveTab('courses')}>
+                          Подробнее
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <Button size="lg" onClick={() => setActiveTab('courses')}>
+                  Смотреть все курсы
+                  <Icon name="ArrowRight" size={18} className="ml-2" />
+                </Button>
+              </div>
+            </section>
+
+            <section className="text-center space-y-8 px-4 py-12">
+              <h2 className="text-3xl md:text-4xl font-bold">Статистика платформы</h2>
+              <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div className="p-6 bg-muted/50 rounded-lg">
+                  <p className="text-5xl font-bold text-accent mb-2">5,247</p>
+                  <p className="text-muted-foreground">Студентов</p>
+                </div>
+                <div className="p-6 bg-muted/50 rounded-lg">
+                  <p className="text-5xl font-bold text-secondary mb-2">52</p>
+                  <p className="text-muted-foreground">Курса</p>
+                </div>
+                <div className="p-6 bg-muted/50 rounded-lg">
+                  <p className="text-5xl font-bold text-primary mb-2">1,247</p>
+                  <p className="text-muted-foreground">Материалов</p>
+                </div>
+                <div className="p-6 bg-muted/50 rounded-lg">
+                  <p className="text-5xl font-bold text-accent mb-2">94%</p>
+                  <p className="text-muted-foreground">Удовлетворенность</p>
+                </div>
+              </div>
+            </section>
+          </TabsContent>
 
           <TabsContent value="courses" className="space-y-8 animate-fade-in">
             <div className="text-center space-y-4 mb-12">
