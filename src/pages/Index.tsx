@@ -28,6 +28,7 @@ interface Question {
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [score, setScore] = useState(0);
@@ -87,6 +88,60 @@ const Index = () => {
       progress: 70,
       students: 623,
       duration: '72 часа',
+      level: 'Повышение'
+    },
+    {
+      id: 7,
+      title: 'Бухгалтерский учет и налогообложение',
+      category: 'Профессиональная переподготовка',
+      progress: 50,
+      students: 387,
+      duration: '520 часов',
+      level: 'Переподготовка'
+    },
+    {
+      id: 8,
+      title: 'Оператор котельной',
+      category: 'Рабочие профессии',
+      progress: 60,
+      students: 134,
+      duration: '144 часа',
+      level: 'Профессия'
+    },
+    {
+      id: 9,
+      title: 'Промышленная безопасность',
+      category: 'Повышение квалификации',
+      progress: 75,
+      students: 456,
+      duration: '72 часа',
+      level: 'Повышение'
+    },
+    {
+      id: 10,
+      title: 'Управление персоналом',
+      category: 'Профессиональная переподготовка',
+      progress: 40,
+      students: 298,
+      duration: '256 часов',
+      level: 'Переподготовка'
+    },
+    {
+      id: 11,
+      title: 'Сварщик ручной дуговой сварки',
+      category: 'Рабочие профессии',
+      progress: 35,
+      students: 223,
+      duration: '256 часов',
+      level: 'Профессия'
+    },
+    {
+      id: 12,
+      title: 'Кадровое делопроизводство',
+      category: 'Повышение квалификации',
+      progress: 85,
+      students: 612,
+      duration: '120 часов',
       level: 'Повышение'
     }
   ];
@@ -340,7 +395,7 @@ const Index = () => {
                   ))}
                 </div>
                 <Button size="lg" onClick={() => setActiveTab('courses')}>
-                  Смотреть все курсы
+                  Смотреть все программы
                   <Icon name="ArrowRight" size={18} className="ml-2" />
                 </Button>
               </div>
@@ -377,8 +432,35 @@ const Index = () => {
               </p>
             </div>
 
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <Button 
+                variant={selectedCategory === 'all' ? 'default' : 'outline'}
+                onClick={() => setSelectedCategory('all')}
+              >
+                Все программы
+              </Button>
+              <Button 
+                variant={selectedCategory === 'Профессиональная переподготовка' ? 'default' : 'outline'}
+                onClick={() => setSelectedCategory('Профессиональная переподготовка')}
+              >
+                Переподготовка
+              </Button>
+              <Button 
+                variant={selectedCategory === 'Повышение квалификации' ? 'default' : 'outline'}
+                onClick={() => setSelectedCategory('Повышение квалификации')}
+              >
+                Повышение квалификации
+              </Button>
+              <Button 
+                variant={selectedCategory === 'Рабочие профессии' ? 'default' : 'outline'}
+                onClick={() => setSelectedCategory('Рабочие профессии')}
+              >
+                Рабочие профессии
+              </Button>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-6">
-              {courses.map((course) => (
+              {courses.filter(course => selectedCategory === 'all' || course.category === selectedCategory).map((course) => (
                 <Card key={course.id} className="hover:shadow-lg transition-shadow duration-300">
                   <CardHeader>
                     <div className="flex items-start justify-between">
@@ -408,7 +490,7 @@ const Index = () => {
                       </div>
                     </div>
                     <Button className="w-full" onClick={() => setSelectedCourse(course.id)}>
-                      Продолжить обучение
+                      Записаться на обучение
                       <Icon name="ArrowRight" size={16} className="ml-2" />
                     </Button>
                   </CardContent>
