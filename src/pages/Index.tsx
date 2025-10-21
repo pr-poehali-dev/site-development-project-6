@@ -7,6 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
 
 interface Course {
   id: number;
@@ -26,9 +30,18 @@ interface Question {
 }
 
 const Index = () => {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('home');
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [applicationForm, setApplicationForm] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    program: '',
+    educationForm: '',
+    message: ''
+  });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [score, setScore] = useState(0);
@@ -249,6 +262,22 @@ const Index = () => {
     setTestStarted(false);
   };
 
+  const handleApplicationSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Заявка отправлена!",
+      description: "Мы свяжемся с вами в ближайшее время для уточнения деталей.",
+    });
+    setApplicationForm({
+      fullName: '',
+      email: '',
+      phone: '',
+      program: '',
+      educationForm: '',
+      message: ''
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -260,11 +289,11 @@ const Index = () => {
               </div>
               <h1 className="text-2xl font-bold">ООО «ИТ-Центр»</h1>
             </div>
-            <nav className="hidden md:flex gap-6">
-              <Button variant="ghost" onClick={() => setActiveTab('courses')}>Курсы</Button>
+<nav className="hidden md:flex gap-6">
+              <Button variant="ghost" onClick={() => setActiveTab('courses')}>Программы</Button>
+              <Button variant="ghost" onClick={() => setActiveTab('application')}>Подать заявку</Button>
               <Button variant="ghost" onClick={() => setActiveTab('library')}>Библиотека</Button>
               <Button variant="ghost" onClick={() => setActiveTab('profile')}>Профиль</Button>
-              <Button variant="ghost">Контакты</Button>
             </nav>
             <Button className="bg-accent hover:bg-accent/90">
               <Icon name="User" size={18} className="mr-2" />
@@ -276,9 +305,10 @@ const Index = () => {
 
       <main className="container mx-auto px-4 py-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4">
+          <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-5">
             <TabsTrigger value="home">Главная</TabsTrigger>
-            <TabsTrigger value="courses">Курсы</TabsTrigger>
+            <TabsTrigger value="courses">Программы</TabsTrigger>
+            <TabsTrigger value="application">Заявка</TabsTrigger>
             <TabsTrigger value="library">Библиотека</TabsTrigger>
             <TabsTrigger value="profile">Профиль</TabsTrigger>
           </TabsList>
@@ -467,6 +497,204 @@ const Index = () => {
                 </div>
               </div>
             </section>
+          </TabsContent>
+
+          <TabsContent value="application" className="space-y-8 animate-fade-in">
+            <div className="text-center space-y-4 mb-12">
+              <h2 className="text-4xl font-bold">Подать заявку на обучение</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Заполните форму и мы свяжемся с вами для уточнения деталей
+              </p>
+            </div>
+
+            <Card className="max-w-3xl mx-auto">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Icon name="FileText" size={24} />
+                  Форма подачи заявления
+                </CardTitle>
+                <CardDescription>
+                  Все поля обязательны для заполнения. После отправки с вами свяжется наш специалист.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleApplicationSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName">ФИО полностью *</Label>
+                    <Input
+                      id="fullName"
+                      placeholder="Иванов Иван Иванович"
+                      value={applicationForm.fullName}
+                      onChange={(e) => setApplicationForm({...applicationForm, fullName: e.target.value})}
+                      required
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email *</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="example@mail.ru"
+                        value={applicationForm.email}
+                        onChange={(e) => setApplicationForm({...applicationForm, email: e.target.value})}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Телефон *</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder="+7 (___) ___-__-__"
+                        value={applicationForm.phone}
+                        onChange={(e) => setApplicationForm({...applicationForm, phone: e.target.value})}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="program">Программа обучения *</Label>
+                    <Select 
+                      value={applicationForm.program} 
+                      onValueChange={(value) => setApplicationForm({...applicationForm, program: value})}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите программу обучения" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="охрана-труда">Специалист по охране труда</SelectItem>
+                        <SelectItem value="электромонтер">Электромонтер по ремонту и обслуживанию</SelectItem>
+                        <SelectItem value="закупки">Контрактная система закупок (44-ФЗ)</SelectItem>
+                        <SelectItem value="сметное-дело">Сметное дело в строительстве</SelectItem>
+                        <SelectItem value="стропальщик">Стропальщик</SelectItem>
+                        <SelectItem value="пожарная">Пожарная безопасность</SelectItem>
+                        <SelectItem value="бухучет">Бухгалтерский учет и налогообложение</SelectItem>
+                        <SelectItem value="котельная">Оператор котельной</SelectItem>
+                        <SelectItem value="промбезопасность">Промышленная безопасность</SelectItem>
+                        <SelectItem value="управление">Управление персоналом</SelectItem>
+                        <SelectItem value="сварщик">Сварщик ручной дуговой сварки</SelectItem>
+                        <SelectItem value="кадры">Кадровое делопроизводство</SelectItem>
+                        <SelectItem value="матрос">Матрос</SelectItem>
+                        <SelectItem value="рулевой">Рулевой</SelectItem>
+                        <SelectItem value="моторист">Моторист-рулевой</SelectItem>
+                        <SelectItem value="докер">Докер (портовый рабочий)</SelectItem>
+                        <SelectItem value="судоводитель">Судоводитель маломерного судна</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="educationForm">Форма обучения *</Label>
+                    <Select 
+                      value={applicationForm.educationForm} 
+                      onValueChange={(value) => setApplicationForm({...applicationForm, educationForm: value})}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите форму обучения" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="очно">Очно</SelectItem>
+                        <SelectItem value="очно-заочно">Очно-заочно</SelectItem>
+                        <SelectItem value="удаленно">Удалённо (дистанционно)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Дополнительная информация</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Укажите дополнительную информацию, вопросы или пожелания..."
+                      value={applicationForm.message}
+                      onChange={(e) => setApplicationForm({...applicationForm, message: e.target.value})}
+                      rows={4}
+                    />
+                  </div>
+
+                  <div className="bg-muted/50 p-4 rounded-lg space-y-2">
+                    <h4 className="font-semibold flex items-center gap-2">
+                      <Icon name="Info" size={18} />
+                      Важная информация
+                    </h4>
+                    <ul className="text-sm text-muted-foreground space-y-1 ml-6 list-disc">
+                      <li>После отправки заявки с вами свяжется специалист в течение 1 рабочего дня</li>
+                      <li>Все программы обучения лицензированы</li>
+                      <li>По окончании выдаются документы государственного образца</li>
+                      <li>Возможна оплата юридическим лицом</li>
+                    </ul>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <Button type="submit" size="lg" className="flex-1">
+                      <Icon name="Send" size={18} className="mr-2" />
+                      Отправить заявку
+                    </Button>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      size="lg"
+                      onClick={() => setApplicationForm({
+                        fullName: '',
+                        email: '',
+                        phone: '',
+                        program: '',
+                        educationForm: '',
+                        message: ''
+                      })}
+                    >
+                      Очистить
+                    </Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-2">
+                    <Icon name="Phone" size={24} className="text-accent" />
+                  </div>
+                  <CardTitle className="text-lg">Телефон</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">+7 (800) 555-35-35</p>
+                  <p className="text-xs text-muted-foreground mt-1">Бесплатный звонок</p>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center mb-2">
+                    <Icon name="Mail" size={24} className="text-secondary" />
+                  </div>
+                  <CardTitle className="text-lg">Email</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">info@it-centr.ru</p>
+                  <p className="text-xs text-muted-foreground mt-1">Ответим в течение дня</p>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                    <Icon name="Clock" size={24} className="text-primary" />
+                  </div>
+                  <CardTitle className="text-lg">Режим работы</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Пн-Пт: 9:00 - 18:00</p>
+                  <p className="text-xs text-muted-foreground mt-1">Сб-Вс: выходной</p>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="courses" className="space-y-8 animate-fade-in">
