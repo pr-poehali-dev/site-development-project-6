@@ -209,6 +209,59 @@ const Index = () => {
               </div>
             </section>
 
+            <section className="space-y-12 px-4">
+              <div className="text-center space-y-4">
+                <h2 className="text-3xl md:text-4xl font-bold">Формы обучения</h2>
+                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                  Выберите удобный для вас формат с применением электронных и дистанционных технологий
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <Card className="text-center border-2 hover:border-accent transition-all hover:shadow-lg">
+                  <CardHeader>
+                    <div className="mx-auto h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center mb-4">
+                      <Icon name="Users" size={32} className="text-accent" />
+                    </div>
+                    <CardTitle className="text-xl">Очно</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Традиционный формат обучения в аудитории с преподавателем и групповыми занятиями
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="text-center border-2 hover:border-secondary transition-all hover:shadow-lg">
+                  <CardHeader>
+                    <div className="mx-auto h-16 w-16 rounded-full bg-secondary/10 flex items-center justify-center mb-4">
+                      <Icon name="UserCheck" size={32} className="text-secondary" />
+                    </div>
+                    <CardTitle className="text-xl">Очно-заочно</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Комбинированный формат: часть занятий очно, часть — дистанционно для вашего удобства
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="text-center border-2 hover:border-primary transition-all hover:shadow-lg">
+                  <CardHeader>
+                    <div className="mx-auto h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <Icon name="Monitor" size={32} className="text-primary" />
+                    </div>
+                    <CardTitle className="text-xl">Удалённо</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Полностью дистанционное обучение из любой точки мира с электронными материалами
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
             <section className="grid md:grid-cols-3 gap-8 px-4">
               <Card className="text-center border-2 hover:border-accent transition-colors">
                 <CardHeader>
