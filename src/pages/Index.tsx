@@ -37,39 +37,57 @@ const Index = () => {
   const courses: Course[] = [
     {
       id: 1,
-      title: 'Основы математического анализа',
-      category: 'Математика',
+      title: 'Специалист по охране труда',
+      category: 'Профессиональная переподготовка',
       progress: 65,
-      students: 1247,
-      duration: '12 недель',
-      level: 'Средний'
+      students: 247,
+      duration: '256 часов',
+      level: 'Переподготовка'
     },
     {
       id: 2,
-      title: 'Квантовая физика: введение',
-      category: 'Физика',
+      title: 'Электромонтер по ремонту и обслуживанию',
+      category: 'Рабочие профессии',
       progress: 45,
-      students: 892,
-      duration: '10 недель',
-      level: 'Продвинутый'
+      students: 189,
+      duration: '160 часов',
+      level: 'Профессия'
     },
     {
       id: 3,
-      title: 'История древних цивилизаций',
-      category: 'История',
+      title: 'Контрактная система закупок (44-ФЗ)',
+      category: 'Повышение квалификации',
       progress: 80,
-      students: 1534,
-      duration: '8 недель',
-      level: 'Базовый'
+      students: 534,
+      duration: '120 часов',
+      level: 'Повышение'
     },
     {
       id: 4,
-      title: 'Алгоритмы и структуры данных',
-      category: 'Информатика',
+      title: 'Сметное дело в строительстве',
+      category: 'Профессиональная переподготовка',
       progress: 30,
-      students: 2103,
-      duration: '14 недель',
-      level: 'Средний'
+      students: 412,
+      duration: '512 часов',
+      level: 'Переподготовка'
+    },
+    {
+      id: 5,
+      title: 'Стропальщик',
+      category: 'Рабочие профессии',
+      progress: 55,
+      students: 156,
+      duration: '72 часа',
+      level: 'Профессия'
+    },
+    {
+      id: 6,
+      title: 'Пожарная безопасность',
+      category: 'Повышение квалификации',
+      progress: 70,
+      students: 623,
+      duration: '72 часа',
+      level: 'Повышение'
     }
   ];
 
@@ -140,7 +158,7 @@ const Index = () => {
               <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
                 <Icon name="GraduationCap" className="text-primary-foreground" size={24} />
               </div>
-              <h1 className="text-2xl font-bold">Академия Знаний</h1>
+              <h1 className="text-2xl font-bold">ООО «ИТ-Центр»</h1>
             </div>
             <nav className="hidden md:flex gap-6">
               <Button variant="ghost" onClick={() => setActiveTab('courses')}>Курсы</Button>
@@ -168,16 +186,16 @@ const Index = () => {
           <TabsContent value="home" className="space-y-16 animate-fade-in">
             <section className="text-center space-y-6 py-20 px-4">
               <div className="inline-block">
-                <Badge variant="secondary" className="mb-4 text-sm px-4 py-1">
-                  Образование нового поколения
+<Badge variant="secondary" className="mb-4 text-sm px-4 py-1">
+                  Лицензированный образовательный центр
                 </Badge>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold max-w-4xl mx-auto leading-tight">
-                Академия Знаний
+                Информационно-технологический центр
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Профессиональное онлайн-образование с системой тестирования и проверки знаний. 
-                Учитесь в удобном темпе, получайте сертификаты.
+                Профессиональная переподготовка, повышение квалификации и обучение по профессиям рабочих и служащих. 
+                Лицензированные программы с выдачей документов государственного образца.
               </p>
               <div className="flex gap-4 justify-center pt-4">
                 <Button size="lg" className="bg-accent hover:bg-accent/90" onClick={() => setActiveTab('courses')}>
@@ -197,11 +215,11 @@ const Index = () => {
                   <div className="mx-auto h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center mb-4">
                     <Icon name="GraduationCap" size={32} className="text-accent" />
                   </div>
-                  <CardTitle className="text-xl">50+ курсов</CardTitle>
+                  <CardTitle className="text-xl">40+ программ</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Широкий выбор академических программ по математике, физике, информатике и гуманитарным наукам
+                    Профессиональная переподготовка, повышение квалификации, обучение рабочим специальностям
                   </p>
                 </CardContent>
               </Card>
@@ -225,11 +243,11 @@ const Index = () => {
                   <div className="mx-auto h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                     <Icon name="Award" size={32} className="text-primary" />
                   </div>
-                  <CardTitle className="text-xl">Сертификаты</CardTitle>
+                  <CardTitle className="text-xl">Документы гос. образца</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Получайте официальные сертификаты о прохождении курсов и подтверждайте свою квалификацию
+                    Дипломы о переподготовке, удостоверения о повышении квалификации, свидетельства по профессиям
                   </p>
                 </CardContent>
               </Card>
@@ -237,7 +255,7 @@ const Index = () => {
 
             <section className="bg-muted/30 rounded-2xl p-12 mx-4">
               <div className="max-w-4xl mx-auto text-center space-y-8">
-                <h2 className="text-3xl md:text-4xl font-bold">Популярные курсы</h2>
+                <h2 className="text-3xl md:text-4xl font-bold">Популярные программы обучения</h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   {courses.slice(0, 4).map((course) => (
                     <Card key={course.id} className="hover:shadow-lg transition-shadow">
@@ -279,16 +297,16 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl font-bold">Статистика платформы</h2>
               <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
                 <div className="p-6 bg-muted/50 rounded-lg">
-                  <p className="text-5xl font-bold text-accent mb-2">5,247</p>
-                  <p className="text-muted-foreground">Студентов</p>
+                  <p className="text-5xl font-bold text-accent mb-2">2,161</p>
+                  <p className="text-muted-foreground">Слушателей обучено</p>
                 </div>
                 <div className="p-6 bg-muted/50 rounded-lg">
-                  <p className="text-5xl font-bold text-secondary mb-2">52</p>
-                  <p className="text-muted-foreground">Курса</p>
+                  <p className="text-5xl font-bold text-secondary mb-2">42</p>
+                  <p className="text-muted-foreground">Программы обучения</p>
                 </div>
                 <div className="p-6 bg-muted/50 rounded-lg">
-                  <p className="text-5xl font-bold text-primary mb-2">1,247</p>
-                  <p className="text-muted-foreground">Материалов</p>
+                  <p className="text-5xl font-bold text-primary mb-2">12</p>
+                  <p className="text-muted-foreground">Лет на рынке</p>
                 </div>
                 <div className="p-6 bg-muted/50 rounded-lg">
                   <p className="text-5xl font-bold text-accent mb-2">94%</p>
@@ -300,9 +318,9 @@ const Index = () => {
 
           <TabsContent value="courses" className="space-y-8 animate-fade-in">
             <div className="text-center space-y-4 mb-12">
-              <h2 className="text-4xl font-bold">Каталог курсов</h2>
+              <h2 className="text-4xl font-bold">Программы обучения</h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Выберите курс и начните обучение в удобном для вас темпе
+                Выберите программу и получите документ государственного образца
               </p>
             </div>
 
@@ -536,18 +554,18 @@ const Index = () => {
             <div>
               <h3 className="font-bold mb-4 flex items-center gap-2">
                 <Icon name="GraduationCap" size={20} />
-                Академия Знаний
+                ООО «ИТ-Центр»
               </h3>
               <p className="text-sm text-muted-foreground">
-                Платформа для качественного онлайн-образования
+                Лицензированный образовательный центр
               </p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Обучение</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>Каталог курсов</li>
-                <li>Библиотека</li>
-                <li>Сертификация</li>
+                <li>Переподготовка</li>
+                <li>Повышение квалификации</li>
+                <li>Рабочие профессии</li>
               </ul>
             </div>
             <div>
@@ -561,13 +579,13 @@ const Index = () => {
             <div>
               <h4 className="font-semibold mb-4">Связь</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>info@academy.edu</li>
-                <li>+7 (495) 123-45-67</li>
+                <li>info@it-centr.ru</li>
+                <li>+7 (800) 555-35-35</li>
               </ul>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            © 2024 Академия Знаний. Все права защищены.
+            © 2024 ООО «Информационно-технологический центр». Все права защищены.
           </div>
         </div>
       </footer>
