@@ -35,12 +35,15 @@ const Index = () => {
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [applicationForm, setApplicationForm] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
+    lastName: '',
+    firstName: '',
+    middleName: '',
+    snils: '',
+    diploma: null as File | null,
+    contract: null as File | null,
+    receipt: null as File | null,
     program: '',
-    educationForm: '',
-    message: ''
+    educationForm: ''
   });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
@@ -260,6 +263,42 @@ const Index = () => {
     setScore(0);
     setShowResults(false);
     setTestStarted(false);
+  };
+
+  const handleApplicationSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Заявка отправлена!",
+      description: "Мы свяжемся с вами в ближайшее время для уточнения деталей.",
+    });
+    setApplicationForm({
+      lastName: '',
+      firstName: '',
+      middleName: '',
+      snils: '',
+      diploma: null,
+      contract: null,
+      receipt: null,
+      program: '',
+      educationForm: ''
+    });
+  };
+
+  const handleFileChange = (field: 'diploma' | 'contract' | 'receipt', file: File | null) => {
+    setApplicationForm({...applicationForm, [field]: file});
+  };
+
+  const formatSnils = (value: string) => {
+    const numbers = value.replace(/\D/g, '');
+    if (numbers.length <= 3) return numbers;
+    if (numbers.length <= 6) return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    if (numbers.length <= 9) return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6, 9)} ${numbers.slice(9, 11)}`;
+  };
+
+  const handleSnilsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatSnils(e.target.value);
+    setApplicationForm({...applicationForm, snils: formatted});
   };
 
   const handleApplicationSubmit = (e: React.FormEvent) => {
@@ -519,41 +558,52 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleApplicationSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="fullName">ФИО полностью *</Label>
-                    <Input
-                      id="fullName"
-                      placeholder="Иванов Иван Иванович"
-                      value={applicationForm.fullName}
-                      onChange={(e) => setApplicationForm({...applicationForm, fullName: e.target.value})}
-                      required
-                    />
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Фамилия *</Label>
+                      <Input
+                        id="lastName"
+                        placeholder="Иванов"
+                        value={applicationForm.lastName}
+                        onChange={(e) => setApplicationForm({...applicationForm, lastName: e.target.value})}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">Имя *</Label>
+                      <Input
+                        id="firstName"
+                        placeholder="Иван"
+                        value={applicationForm.firstName}
+                        onChange={(e) => setApplicationForm({...applicationForm, firstName: e.target.value})}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="middleName">Отчество *</Label>
+                      <Input
+                        id="middleName"
+                        placeholder="Иванович"
+                        value={applicationForm.middleName}
+                        onChange={(e) => setApplicationForm({...applicationForm, middleName: e.target.value})}
+                        required
+                      />
+                    </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="example@mail.ru"
-                        value={applicationForm.email}
-                        onChange={(e) => setApplicationForm({...applicationForm, email: e.target.value})}
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Телефон *</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="+7 (___) ___-__-__"
-                        value={applicationForm.phone}
-                        onChange={(e) => setApplicationForm({...applicationForm, phone: e.target.value})}
-                        required
-                      />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="snils">СНИЛС *</Label>
+                    <Input
+                      id="snils"
+                      placeholder="123-456-789 00"
+                      value={applicationForm.snils}
+                      onChange={handleSnilsChange}
+                      maxLength={14}
+                      required
+                    />
+                    <p className="text-xs text-muted-foreground">Формат: XXX-XXX-XXX XX</p>
                   </div>
 
                   <div className="space-y-2">
@@ -606,15 +656,65 @@ const Index = () => {
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Дополнительная информация</Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Укажите дополнительную информацию, вопросы или пожелания..."
-                      value={applicationForm.message}
-                      onChange={(e) => setApplicationForm({...applicationForm, message: e.target.value})}
-                      rows={4}
-                    />
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-lg flex items-center gap-2">
+                      <Icon name="Upload" size={20} />
+                      Загрузка документов
+                    </h3>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="diploma">Диплом об образовании *</Label>
+                      <Input
+                        id="diploma"
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={(e) => handleFileChange('diploma', e.target.files?.[0] || null)}
+                        required
+                      />
+                      {applicationForm.diploma && (
+                        <p className="text-xs text-green-600 flex items-center gap-1">
+                          <Icon name="CheckCircle" size={14} />
+                          {applicationForm.diploma.name}
+                        </p>
+                      )}
+                      <p className="text-xs text-muted-foreground">Требуется для программ переподготовки. Форматы: PDF, JPG, PNG</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="contract">Договор *</Label>
+                      <Input
+                        id="contract"
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={(e) => handleFileChange('contract', e.target.files?.[0] || null)}
+                        required
+                      />
+                      {applicationForm.contract && (
+                        <p className="text-xs text-green-600 flex items-center gap-1">
+                          <Icon name="CheckCircle" size={14} />
+                          {applicationForm.contract.name}
+                        </p>
+                      )}
+                      <p className="text-xs text-muted-foreground">Подписанный договор на обучение</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="receipt">Квитанция об оплате *</Label>
+                      <Input
+                        id="receipt"
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={(e) => handleFileChange('receipt', e.target.files?.[0] || null)}
+                        required
+                      />
+                      {applicationForm.receipt && (
+                        <p className="text-xs text-green-600 flex items-center gap-1">
+                          <Icon name="CheckCircle" size={14} />
+                          {applicationForm.receipt.name}
+                        </p>
+                      )}
+                      <p className="text-xs text-muted-foreground">Подтверждение оплаты образовательной услуги</p>
+                    </div>
                   </div>
 
                   <div className="bg-muted/50 p-4 rounded-lg space-y-2">
@@ -640,12 +740,15 @@ const Index = () => {
                       variant="outline" 
                       size="lg"
                       onClick={() => setApplicationForm({
-                        fullName: '',
-                        email: '',
-                        phone: '',
+                        lastName: '',
+                        firstName: '',
+                        middleName: '',
+                        snils: '',
+                        diploma: null,
+                        contract: null,
+                        receipt: null,
                         program: '',
-                        educationForm: '',
-                        message: ''
+                        educationForm: ''
                       })}
                     >
                       Очистить
