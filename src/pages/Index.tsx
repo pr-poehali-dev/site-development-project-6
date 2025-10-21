@@ -143,6 +143,51 @@ const Index = () => {
       students: 612,
       duration: '120 часов',
       level: 'Повышение'
+    },
+    {
+      id: 13,
+      title: 'Матрос',
+      category: 'Рабочие профессии',
+      progress: 42,
+      students: 178,
+      duration: '160 часов',
+      level: 'Профессия'
+    },
+    {
+      id: 14,
+      title: 'Рулевой',
+      category: 'Рабочие профессии',
+      progress: 58,
+      students: 145,
+      duration: '240 часов',
+      level: 'Профессия'
+    },
+    {
+      id: 15,
+      title: 'Моторист-рулевой',
+      category: 'Рабочие профессии',
+      progress: 48,
+      students: 132,
+      duration: '280 часов',
+      level: 'Профессия'
+    },
+    {
+      id: 16,
+      title: 'Докер (портовый рабочий)',
+      category: 'Рабочие профессии',
+      progress: 65,
+      students: 201,
+      duration: '144 часа',
+      level: 'Профессия'
+    },
+    {
+      id: 17,
+      title: 'Судоводитель маломерного судна',
+      category: 'Профессиональная переподготовка',
+      progress: 55,
+      students: 267,
+      duration: '192 часа',
+      level: 'Переподготовка'
     }
   ];
 
